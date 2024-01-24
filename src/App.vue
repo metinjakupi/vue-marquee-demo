@@ -38,14 +38,16 @@ const speed = ref(25);
 const direction = ref('horizontal');
 const rtl = ref(false);
 
-const updateSpeed = (newSpeed: number) => {
-  speed.value = newSpeed;
-
-}
+const handleInputChange = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  speed.value = Number(input.value);
+};
 
 const toggleRtl = () => {
   rtl.value = !rtl.value;
 }
+
+
 </script>
 
 <template>
@@ -89,7 +91,7 @@ const toggleRtl = () => {
             <label for="speed" class="block text-sm font-medium text-gray-700 mb-2">Speed</label>
             <input type="range" id="speed" min="0" max="100"
                    class="w-56 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                   v-model="speed" @input="updateSpeed($event?.target?.value)">
+                   v-model="speed" @input="handleInputChange">
           </div>
 
           <button @click="toggleRtl"
@@ -162,7 +164,6 @@ const toggleRtl = () => {
       </pre>
 
       <div class="h-32"></div>
-
 
 
     </div>
