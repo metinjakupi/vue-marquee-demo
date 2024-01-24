@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mjakupi/vue-marquee": "file:mjakupi-vue-marquee-1.0.2.tgz",
+    "@mjakupi/vue-marquee": "^1.0.2",
     "vue": "^3.3.11"
   },
   "devDependencies": {
