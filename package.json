@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mjakupi/vue-marquee": "^1.0.2",
+    "@mjakupi/vue-marquee": "^1.0.7",
     "vue": "^3.3.11"
   },
   "devDependencies": {

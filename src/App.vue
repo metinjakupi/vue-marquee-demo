@@ -35,12 +35,24 @@ const marqueeItems = ref([
   },
 ]);
 const speed = ref(25);
+const outset = ref('0');
+const rtlOutset = ref('-1');
 const direction = ref('horizontal');
 const rtl = ref(false);
 
-const handleInputChange = (event: Event) => {
+const handleInputChange = (event: Event, type: string) => {
   const input = event.target as HTMLInputElement;
-  speed.value = Number(input.value);
+  switch (type) {
+    case 'speed':
+      speed.value = Number(input.value);
+      break;
+    case 'outset':
+      outset.value = input.value
+      break;
+    case 'rtlOutset':
+      rtlOutset.value = input.value;
+      break;
+  }
 };
 
 const toggleRtl = () => {
@@ -51,7 +63,7 @@ const toggleRtl = () => {
 </script>
 
 <template>
-  <section class="bg-zinc-100 max-h-full h-full">
+  <section class="bg-zinc-100 max-h-full h-full overflow-hidden">
 
     <div class="max-w-5xl m-auto">
       <div class="flex justify-center ">
@@ -91,9 +103,22 @@ const toggleRtl = () => {
             <label for="speed" class="block text-sm font-medium text-gray-700 mb-2">Speed</label>
             <input type="range" id="speed" min="0" max="100"
                    class="w-56 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                   v-model="speed" @input="handleInputChange">
+                   v-model="speed" @input="handleInputChange($event,'speed')">
           </div>
+          <div>
+            <label for="speed" class="block text-sm font-medium text-gray-700 mb-2">Rtl Outset</label>
 
+            <input type="range" id="gap" min="-3" max="-0.5" step="0.1"
+                   class="w-56 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                   v-model="rtlOutset" @input="handleInputChange($event, 'rtlOutset')">
+          </div>
+          <div>
+            <label for="speed" class="block text-sm font-medium text-gray-700 mb-2">Outset</label>
+
+            <input type="range" id="gap" min="-0.5" max="3" step="0.1"
+                   class="w-56 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                   v-model="outset" @input="handleInputChange($event, 'outset')">
+          </div>
           <button @click="toggleRtl"
                   class="px-6 flex-grow-0 py-2 w-36  bg-black text-white font-medium rounded-md shadow-sm  focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50 transition duration-300">
             Toggle {{ rtl ? 'RTL' : 'LTR' }}
@@ -101,7 +126,7 @@ const toggleRtl = () => {
         </div>
       </div>
 
-      <Marquee :items="marqueeItems" :speed="speed" :direction="direction" :rtl="rtl">
+      <Marquee :items="marqueeItems" :speed="speed" :outset="outset" :direction="direction" :rtl="rtl">
         <template v-slot="{ item }">
           <article class="flex ratio h-52 gap-5 flex-col bg-white shadow-md rounded-sm py-4 px-4 justify-between">
             <section>
@@ -119,7 +144,8 @@ const toggleRtl = () => {
         </template>
       </Marquee>
 
-      <Marquee :items="marqueeItems" :speed="speed" :direction="direction" rtl="true">
+      <Marquee :items="marqueeItems" :speed="speed" :outset="outset" :rtl-outset="rtlOutset" :direction="direction"
+               rtl="true">
         <template v-slot="{ item }">
           <article class="flex ratio h-52 gap-5 flex-col bg-white shadow-md rounded-sm py-4 px-4 justify-between">
             <section>
@@ -141,25 +167,31 @@ const toggleRtl = () => {
       </h3>
       <pre class="bg-white  rounded-md ">
         <code>
-      &lt;template&gt;
-        &lt;Marquee :items="marqueeItems" :speed="50" direction="horizontal" :rtl="isRtl"&gt;
-          &lt;template v-slot="{ item }"&gt;
-            &lt;div class="marquee-content"&gt;&lt;/div&gt;
-          &lt;/template&gt;
-        &lt;/Marquee&gt;
-      &lt;/template&gt;
+    &lt;template&gt;
+      &lt;Marquee
+          :items="marqueeItems"
+          :outset="0"
+          :rtlOutset="-1"
+          :speed="50"
+          direction="horizontal"
+          :rtl="isRtl"&gt;
+        &lt;template v-slot="{ item }"&gt;
+          &lt;div class="marquee-content"&gt;&lt;/div&gt;
+        &lt;/template&gt;
+      &lt;/Marquee&gt;
+    &lt;/template&gt;
 
-      &lt;script setup lang="ts"&gt;
-        import { ref } from 'vue';
-        import { Marquee } from "@mjakupi/vue-marquee";
-        import '@mjakupi/vue-marquee/dist/style.css'
-        const marqueeItems = ref([
-          { text: 'Item 1' },
-          { text: 'Item 2' },
-          { text: 'Item 3' }
-        ]);
-        const isRtl = ref(false);
-      &lt;/script&gt;
+    &lt;script setup lang="ts"&gt;
+      import { ref } from 'vue';
+      import { Marquee } from "@mjakupi/vue-marquee";
+      import '@mjakupi/vue-marquee/dist/style.css'
+      const marqueeItems = ref([
+        { text: 'Item 1' },
+        { text: 'Item 2' },
+        { text: 'Item 3' }
+      ]);
+      const isRtl = ref(false);
+    &lt;/script&gt;
       </code>
       </pre>
 
